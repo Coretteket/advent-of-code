@@ -1,4 +1,4 @@
-// Advent of Code 2022 - Day 1a
+// Advent of Code 2022 - Day 2a
 
 const file = await Deno.readTextFile('input.txt');
 const games = file.split('\n').map((file) => file.split(' '));
