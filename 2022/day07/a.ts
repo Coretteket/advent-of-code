@@ -19,6 +19,10 @@ class Dir {
   get size(): number {
     return [...this.files, ...this.dirs].reduce((prev, curr) => prev + curr.size, 0);
   }
+
+  get root(): Dir {
+    return this.parent ? this.parent.root : this;
+  }
 }
 
 let dir = new Dir(null!, '/');
@@ -39,15 +43,12 @@ lines.slice(1).forEach((line) => {
   }
 });
 
-const getRoot = (dir: Dir): Dir => (dir.name === '/' ? dir : getRoot(dir.parent));
-const root = getRoot(dir);
-
 const list = (root: Dir) => {
-  const dirs = root.dirs.filter((dir) => dir.size <= 100_000);
+  const dirs = root.dirs.filter((dir) => dir.size <= 1e5);
   root.dirs.forEach((dir) => dirs.push(...list(dir)));
   return dirs;
 };
 
-const ouput = list(root).reduce((prev, curr) => prev + curr.size, 0);
+const ouput = list(dir.root).reduce((prev, curr) => prev + curr.size, 0);
 
 console.log(ouput);
