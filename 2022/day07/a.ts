@@ -3,20 +3,12 @@
 const file = await Deno.readTextFile('input.txt');
 const lines = file.split('\r\n');
 
-class File {
-  name: string;
-  size: number;
-
-  constructor(name: string, size: string | number) {
-    this.name = name;
-    this.size = Number(size);
-  }
-}
+type File = { name: string; size: number };
 
 class Dir {
   parent: Dir;
   name: string;
-  children: File[] = [];
+  files: File[] = [];
   dirs: Dir[] = [];
 
   constructor(parent: Dir, name: string) {
@@ -24,16 +16,8 @@ class Dir {
     this.name = name;
   }
 
-  addKid(name: string, size: string) {
-    this.children.push(new File(name, size));
-  }
-
-  addDir(dir: Dir) {
-    this.dirs.push(dir);
-  }
-
   get size(): number {
-    return [...this.children, ...this.dirs].reduce((prev, curr) => prev + curr.size, 0);
+    return [...this.files, ...this.dirs].reduce((prev, curr) => prev + curr.size, 0);
   }
 }
 
@@ -45,21 +29,17 @@ lines.slice(1).forEach((line) => {
       dir = dir.parent;
     } else {
       const new_dir = new Dir(dir, line.replace('$ cd ', ''));
-      dir.addDir(new_dir);
+      dir.dirs.push(new_dir);
       dir = new_dir;
     }
   }
   if (!line.match(/(dir|\$)/)) {
-    const [number, name] = line.split(' ');
-    dir.addKid(name, number);
+    const [size, name] = line.split(' ');
+    dir.files.push({ name, size: Number(size) });
   }
 });
 
-const getRoot = (dir: Dir) => {
-  if (dir.name === '/' && dir.parent === null) return dir;
-  return dir.parent;
-};
-
+const getRoot = (dir: Dir) => (dir.name === '/' ? dir : dir.parent);
 const root = getRoot(dir);
 
 const list = (root: Dir) => {
