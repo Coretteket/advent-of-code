@@ -39,7 +39,7 @@ lines.slice(1).forEach((line) => {
   }
 });
 
-const getRoot = (dir: Dir) => (dir.name === '/' ? dir : dir.parent);
+const getRoot = (dir: Dir): Dir => (dir.name === '/' ? dir : getRoot(dir.parent));
 const root = getRoot(dir);
 
 const list = (root: Dir) => {
