@@ -2,7 +2,6 @@
 
 const file = await Deno.readTextFile('input.txt');
 const lines = file.split('\r\n').map((l) => l.split('').map(Number));
-
 let visible = 0;
 
 lines.forEach((line, y) =>
@@ -15,5 +14,4 @@ lines.forEach((line, y) =>
   })
 );
 
-console.log(lines);
 console.log(visible);

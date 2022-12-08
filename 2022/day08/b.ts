@@ -1,14 +1,11 @@
-// Advent of Code 2022 - Day 8a
+// Advent of Code 2022 - Day 8b
 
 const file = await Deno.readTextFile('input.txt');
 const lines = file.split('\r\n').map((l) => l.split('').map(Number));
-
 let max = 0;
 
 const getSight = (tree: number) => (arr: number[]) => {
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] >= tree) return i + 1;
-  }
+  for (let i = 0; i < arr.length; i++) if (arr[i] >= tree) return i + 1;
   return arr.length;
 };
 
