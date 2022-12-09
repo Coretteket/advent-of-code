@@ -1,4 +1,4 @@
-// Advent of Code 2022 - Day 9b
+// Advent of Code 2022 - Day 9a
 
 const { abs } = Math;
 
