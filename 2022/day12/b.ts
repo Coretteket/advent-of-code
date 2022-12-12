@@ -1,4 +1,4 @@
-// Advent of Code 2022 - Day 11b
+// Advent of Code 2022 - Day 12b
 
 const file = await Deno.readTextFile('input.txt');
 
